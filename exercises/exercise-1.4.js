@@ -14,9 +14,7 @@ const addUser = async (req, res) => {
   const db = client.db("exercise_1");
   console.log("connected!");
 
-  const users = await db
-    .collection("users")
-    .insertOne({ data: { name: "Morty Smith" } });
+  const users = await db.collection("users").insertOne({ data: req.body });
   res.status(201).json(users);
 
   client.close();
