@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const { getUsers } = require("./exercises/exercise-1.3");
 const { addUser } = require("./exercises/exercise-1.4");
 const { createGreeting } = require("./exercises/exercise-2");
+const { batchImport } = require("./batchImport");
 
 const PORT = process.env.PORT || 8000;
 
@@ -21,6 +22,7 @@ express()
   .post("/exercise-1/users", addUser)
   // exercise 2
   .post("/exercise-2/greeting", createGreeting)
+  .post("/batchImport", batchImport)
 
   // handle 404s
   .use((req, res) => res.status(404).type("txt").send("🤷‍♂️"))
