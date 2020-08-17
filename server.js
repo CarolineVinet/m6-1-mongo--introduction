@@ -9,6 +9,7 @@ const {
   createGreeting,
   getGreeting,
   getGreetings,
+  deleteGreeting,
 } = require("./exercises/exercise-2");
 // const { batchImport } = require("./batchImport");
 
@@ -29,6 +30,7 @@ express()
   // .post("/batchImport", batchImport)
   .get("/exercise-2/greeting", getGreetings)
   .get("/exercise-2/greeting/:_id", getGreeting)
+  .delete("/exercise-2/greeting/:_id", deleteGreeting)
 
   // handle 404s
   .use((req, res) => res.status(404).type("txt").send("🤷‍♂️"))

@@ -68,4 +68,23 @@ const getGreetings = async (req, res) => {
   console.log("disconnected!");
 };
 
-module.exports = { createGreeting, getGreeting, getGreetings };
+const deleteGreeting = async (req, res) => {
+  const client = await MongoClient(MONGO_URI, options);
+
+  await client.connect();
+  const db = client.db("exercise_1");
+  console.log("connected!");
+
+  const _id = req.params._id;
+
+  const r = await db.collection("greetings").deleteOne({ _id });
+  assert.equal(1, r.deletedCount);
+  res.status(204).json({ status: 204, data: req.body });
+
+  console.log(r);
+
+  client.close();
+  console.log("disconnected!");
+};
+
+module.exports = { createGreeting, getGreeting, getGreetings, deleteGreeting };
