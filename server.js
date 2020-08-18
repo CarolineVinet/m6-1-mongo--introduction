@@ -10,6 +10,7 @@ const {
   getGreeting,
   getGreetings,
   deleteGreeting,
+  updateGreeting,
 } = require("./exercises/exercise-2");
 // const { batchImport } = require("./batchImport");
 
@@ -31,6 +32,7 @@ express()
   .get("/exercise-2/greeting", getGreetings)
   .get("/exercise-2/greeting/:_id", getGreeting)
   .delete("/exercise-2/greeting/:_id", deleteGreeting)
+  .put("/exercise-2/greeting/:_id", updateGreeting)
 
   // handle 404s
   .use((req, res) => res.status(404).type("txt").send("🤷‍♂️"))

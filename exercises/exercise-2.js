@@ -77,8 +77,6 @@ const deleteGreeting = async (req, res) => {
 
   const _id = req.params._id;
 
-  const r = await db.collection("greetings").deleteOne({ _id });
-  assert.equal(1, r.deletedCount);
   res.status(204).json({ status: 204, data: req.body });
 
   console.log(r);
@@ -87,4 +85,36 @@ const deleteGreeting = async (req, res) => {
   console.log("disconnected!");
 };
 
-module.exports = { createGreeting, getGreeting, getGreetings, deleteGreeting };
+const updateGreeting = async (req, res) => {
+  try {
+    if (!req.body.hello) {
+      throw new Error("No hello key");
+    }
+
+    const client = await MongoClient(MONGO_URI, options);
+
+    await client.connect();
+    const db = client.db("exercise_1");
+    console.log("connected!");
+
+    const _id = req.params._id;
+    const query = { _id };
+    const newValues = { $set: { hello: req.body.hello } };
+
+    const r = await db.collection("greetings").updateOne(query, newValues);
+    assert.equal(1, r.matchedCount);
+    assert.equal(1, r.modifiedCount);
+    res.status(200).json({ status: 200, _id, ...req.body });
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, data: req.body, message: err.message });
+  }
+};
+
+module.exports = {
+  createGreeting,
+  getGreeting,
+  getGreetings,
+  deleteGreeting,
+  updateGreeting,
+};
